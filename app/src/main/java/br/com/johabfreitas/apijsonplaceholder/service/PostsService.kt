@@ -8,5 +8,5 @@ import retrofit2.http.Path
 interface PostsService {
 
     @GET("posts/{id}")
-    suspend fun recuperarPosts(@Path("id") id:Int) : Response<List<Posts>>
+    suspend fun recuperarPosts(@Path("id") id: Int) : Response<List<Posts>>
 }

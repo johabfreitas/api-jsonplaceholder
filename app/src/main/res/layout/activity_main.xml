@@ -75,18 +75,19 @@
         app:layout_constraintStart_toEndOf="@+id/btn_posts"
         app:layout_constraintTop_toBottomOf="@+id/edt_id" />
 
-    <View
-        android:id="@+id/view_visualizar"
+    <EditText
+        android:id="@+id/edt_visualizar"
         android:layout_width="0dp"
         android:layout_height="200dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="100dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="100dp"
         android:background="@drawable/border_view"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_posts" />
 
