@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import br.com.johabfreitas.apijsonplaceholder.databinding.ActivityMainBinding
+import br.com.johabfreitas.apijsonplaceholder.model.Comments
 import br.com.johabfreitas.apijsonplaceholder.model.Posts
 import br.com.johabfreitas.apijsonplaceholder.service.PostsService
 import br.com.johabfreitas.apijsonplaceholder.service.RetrofitHelper
@@ -46,6 +47,15 @@ class MainActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main){
                     recuperarListaPosts() //Recupera uma lista de postagens
                     binding.edtId.getText().clear()
+                }
+            }
+        }
+
+        binding.btnComments.setOnClickListener {
+
+            CoroutineScope(Dispatchers.IO).launch {
+                withContext(Dispatchers.Main){
+                    recuperarComentarios()
                 }
             }
         }
@@ -112,5 +122,51 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    private suspend fun recuperarComentarios() {
+
+        var retorno: Response<List<Comments>>? = null
+        val idPostagem = binding.edtId.text.toString()
+
+        try {
+            val idPostagemInteira = Integer.parseInt(idPostagem)
+            val postsService = retrofit.create(PostsService::class.java)
+            retorno = postsService.recuperarComentarios(idPostagemInteira)
+
+        }catch (e: Exception) {
+            e.printStackTrace()
+        } catch (e: NumberFormatException){
+            e.printStackTrace()
+        }
+
+        if(retorno != null) {
+
+            if(retorno.isSuccessful){
+
+                val listaPostagens = retorno.body()
+
+                var resultado = ""
+                listaPostagens?.forEach{postagem ->
+                    val email = postagem.email
+                    val comentario = postagem.description
+                    val listaResultado = "Email:\n $email \n Comentário:\n $comentario \n \n"
+                    resultado += listaResultado
+                }
+
+                binding.edtVisualizar.setText(resultado)
+
+            }
+
+            /*if(retorno.isSuccessful){
+
+                val postagem = retorno.body()
+
+                binding.edtVisualizar.setText(
+                    " Email: \n" + postagem?.email + "\n \n" +
+                            " Description: \n" + postagem?.description
+                )
+            }*/
+        }
     }
 }
