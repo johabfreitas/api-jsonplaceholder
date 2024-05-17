@@ -34,9 +34,38 @@ class MainActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 withContext(Dispatchers.Main){
 
-                    recuperarPosts()
+                    /*recuperarPosts() //Recupera uma lista de postagens*/
+                    recuperarPost() //Recupera postagem pelo id
 
                 }
+            }
+        }
+    }
+
+    private suspend fun recuperarPost() {
+
+        var retorno: Response<Posts>? = null
+        val idPostagem = binding.edtId.text.toString()
+        val idPostagemInteira = Integer.parseInt(idPostagem)
+
+        try {
+            val postsService = retrofit.create(PostsService::class.java)
+            retorno = postsService.recuperarPost(idPostagemInteira)
+
+        }catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        if(retorno != null) {
+
+            if(retorno.isSuccessful){
+
+                val postagem = retorno.body()
+
+                binding.edtVisualizar.setText(
+                    " Title: \n" + postagem?.title + "\n \n" +
+                            " Description: \n" + postagem?.description
+                )
             }
         }
     }
@@ -44,12 +73,10 @@ class MainActivity : AppCompatActivity() {
     private suspend fun recuperarPosts() {
 
         var retorno: Response<List<Posts>>? = null
-        val idPostagem = binding.edtId.text.toString()
-        val idPostagemInteira = Integer.parseInt(idPostagem)
 
         try {
             val postsService = retrofit.create(PostsService::class.java)
-            retorno = postsService.recuperarPosts(idPostagemInteira)
+            retorno = postsService.recuperarPosts()
 
         }catch (e: Exception) {
             e.printStackTrace()
@@ -62,16 +89,10 @@ class MainActivity : AppCompatActivity() {
                 val listaPostagens = retorno.body()
 
                 listaPostagens?.forEach{postagem ->
-                    /*val id = postagem.id
+                    val id = postagem.id
                     val titulo = postagem.title
-                    val saida = "$id- $titulo"
-                    Log.i("info_jsonplace", "$id - $titulo")*/
-                    val saida = listaPostagens.get(postagem.id)
-                    binding.edtVisualizar.setText(saida.title)
-                    Log.i("info_jsonplace", "$saida")
+                    Log.i("info_jsonplace", "$id - $titulo")
                 }
-
-
             }
         }
 
