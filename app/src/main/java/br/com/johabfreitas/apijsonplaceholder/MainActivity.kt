@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 withContext(Dispatchers.Main){
                     recuperarPost() //Recupera postagem pelo id
+                    binding.edtId.getText().clear()
                 }
             }
         }
@@ -44,6 +45,7 @@ class MainActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 withContext(Dispatchers.Main){
                     recuperarListaPosts() //Recupera uma lista de postagens
+                    binding.edtId.getText().clear()
                 }
             }
         }
