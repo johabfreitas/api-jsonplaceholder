@@ -56,8 +56,7 @@ class MainActivity : AppCompatActivity() {
         }catch (e: Exception) {
             e.printStackTrace()
         } catch (e: NumberFormatException){
-            throw NumberFormatException ("")
-
+             e.printStackTrace()
         }
 
         if(retorno != null) {
@@ -104,6 +103,4 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-
-    class CustomException(message: String) : Exception(message)
 }
