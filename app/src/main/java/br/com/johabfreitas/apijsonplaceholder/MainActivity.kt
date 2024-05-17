@@ -34,10 +34,16 @@ class MainActivity : AppCompatActivity() {
 
             CoroutineScope(Dispatchers.IO).launch {
                 withContext(Dispatchers.Main){
-
-                    //recuperarPosts() //Recupera uma lista de postagens
                     recuperarPost() //Recupera postagem pelo id
+                }
+            }
+        }
 
+        binding.btnListarposts.setOnClickListener {
+
+            CoroutineScope(Dispatchers.IO).launch {
+                withContext(Dispatchers.Main){
+                    recuperarListaPosts() //Recupera uma lista de postagens
                 }
             }
         }
@@ -73,13 +79,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private suspend fun recuperarPosts() {
+    private suspend fun recuperarListaPosts() {
 
         var retorno: Response<List<Posts>>? = null
 
         try {
             val postsService = retrofit.create(PostsService::class.java)
-            retorno = postsService.recuperarPosts()
+            retorno = postsService.recuperarListaPosts()
 
         }catch (e: Exception) {
             e.printStackTrace()
@@ -91,14 +97,16 @@ class MainActivity : AppCompatActivity() {
 
                 val listaPostagens = retorno.body()
 
+                var resultado = ""
                 listaPostagens?.forEach{postagem ->
-                    val id = postagem.id
+                    val idPosts = postagem.id
                     val titulo = postagem.title
-
-                    binding.edtVisualizar.setText(id.toString() + " - " + titulo)
-
-                    //Log.i("info_jsonplace", "$id - $titulo")
+                    val listaResultado = "$idPosts- $titulo \n"
+                    resultado += listaResultado
                 }
+
+                binding.edtVisualizar.setText(resultado)
+
             }
         }
 

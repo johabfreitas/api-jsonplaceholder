@@ -13,5 +13,5 @@ interface PostsService {
 
     //Recupera uma lista de postagens
     @GET("posts")
-    suspend fun recuperarPosts() : Response<List<Posts>>
+    suspend fun recuperarListaPosts() : Response<List<Posts>>
 }
