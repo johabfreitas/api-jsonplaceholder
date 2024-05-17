@@ -3,6 +3,7 @@ package br.com.johabfreitas.apijsonplaceholder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import br.com.johabfreitas.apijsonplaceholder.databinding.ActivityMainBinding
 import br.com.johabfreitas.apijsonplaceholder.model.Posts
 import br.com.johabfreitas.apijsonplaceholder.service.PostsService
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 withContext(Dispatchers.Main){
 
-                    /*recuperarPosts() //Recupera uma lista de postagens*/
+                    //recuperarPosts() //Recupera uma lista de postagens
                     recuperarPost() //Recupera postagem pelo id
 
                 }
@@ -46,14 +47,17 @@ class MainActivity : AppCompatActivity() {
 
         var retorno: Response<Posts>? = null
         val idPostagem = binding.edtId.text.toString()
-        val idPostagemInteira = Integer.parseInt(idPostagem)
 
         try {
+            val idPostagemInteira = Integer.parseInt(idPostagem)
             val postsService = retrofit.create(PostsService::class.java)
             retorno = postsService.recuperarPost(idPostagemInteira)
 
         }catch (e: Exception) {
             e.printStackTrace()
+        } catch (e: NumberFormatException){
+            throw NumberFormatException ("")
+
         }
 
         if(retorno != null) {
@@ -91,10 +95,15 @@ class MainActivity : AppCompatActivity() {
                 listaPostagens?.forEach{postagem ->
                     val id = postagem.id
                     val titulo = postagem.title
-                    Log.i("info_jsonplace", "$id - $titulo")
+
+                    binding.edtVisualizar.setText(id.toString() + " - " + titulo)
+
+                    //Log.i("info_jsonplace", "$id - $titulo")
                 }
             }
         }
 
     }
+
+    class CustomException(message: String) : Exception(message)
 }
