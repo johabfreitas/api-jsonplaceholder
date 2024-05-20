@@ -3,7 +3,9 @@ package br.com.johabfreitas.apijsonplaceholder.service
 import br.com.johabfreitas.apijsonplaceholder.model.Comments
 import br.com.johabfreitas.apijsonplaceholder.model.Posts
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -24,4 +26,8 @@ interface PostsService {
     //Recuperar comentários com Query
     @GET("comments")
     suspend fun recuperarComentariosQuery(@Query("id") id: Int) : Response<List<Comments>>
+
+    //Salvar uma postagem
+    @POST("posts")
+    suspend fun salvarPosts(@Body posts: Posts): Response<Posts>
 }
