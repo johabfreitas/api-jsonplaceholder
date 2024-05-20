@@ -69,7 +69,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:text="Comments"
+        android:text="Recuperar\nComentarios\nPath"
+        android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btn_posts"
@@ -80,11 +81,28 @@
         android:id="@+id/btn_listarposts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="Listar Posts"
+        android:text="Listar\nPosts"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_comments_query"
+        app:layout_constraintEnd_toStartOf="@+id/btn_comments_query"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_posts" />
+        app:layout_constraintTop_toTopOf="@+id/btn_comments_query" />
+
+    <Button
+        android:id="@+id/btn_comments_query"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="Recuperar\nComentarios\nQuery"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_listarposts"
+        app:layout_constraintTop_toBottomOf="@+id/btn_comments" />
 
     <ScrollView
         android:layout_width="0dp"
