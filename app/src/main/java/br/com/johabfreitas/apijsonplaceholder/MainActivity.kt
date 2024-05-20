@@ -136,8 +136,8 @@ class MainActivity : AppCompatActivity() {
 
         }catch (e: Exception) {
             e.printStackTrace()
-        } catch (e: NumberFormatException){
-            e.printStackTrace()
+        } catch (error: NumberFormatException){
+            throw NumberFormatException("Entrada inválida, digite um iD! ${error.message}")
         }
 
         if(retorno != null) {
