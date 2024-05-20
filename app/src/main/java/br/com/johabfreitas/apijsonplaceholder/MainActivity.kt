@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 withContext(Dispatchers.Main){
                     recuperarPost() //Recupera postagem pelo id
-                    binding.edtId.getText().clear()
+                    limparEntrada()
                 }
             }
         }
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 withContext(Dispatchers.Main){
                     recuperarListaPosts() //Recupera uma lista de postagens
-                    binding.edtId.getText().clear()
+                    limparEntrada()
                 }
             }
         }
@@ -56,11 +56,18 @@ class MainActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 withContext(Dispatchers.Main){
                     recuperarComentarios()
+                    limparEntrada()
                 }
             }
         }
     }
 
+    // Limpar entrada
+    private fun limparEntrada() {
+        binding.edtId.getText().clear()
+    }
+
+    // Recuperar uma postagem pelo iD.
     private suspend fun recuperarPost() {
 
         var retorno: Response<Posts>? = null
@@ -91,6 +98,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //Recuperar uma lista de postagem completa.
     private suspend fun recuperarListaPosts() {
 
         var retorno: Response<List<Posts>>? = null
@@ -124,6 +132,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    //Recuperar postagem
     private suspend fun recuperarComentarios() {
 
         var retorno: Response<List<Comments>>? = null
