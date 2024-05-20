@@ -2,8 +2,6 @@ package br.com.johabfreitas.apijsonplaceholder
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import br.com.johabfreitas.apijsonplaceholder.databinding.ActivityMainBinding
 import br.com.johabfreitas.apijsonplaceholder.model.Comments
 import br.com.johabfreitas.apijsonplaceholder.model.Posts
@@ -55,7 +53,17 @@ class MainActivity : AppCompatActivity() {
 
             CoroutineScope(Dispatchers.IO).launch {
                 withContext(Dispatchers.Main){
-                    recuperarComentarios()
+                    recuperarComentariosPath()
+                    limparEntrada()
+                }
+            }
+        }
+
+        binding.btnCommentsQuery.setOnClickListener {
+
+            CoroutineScope(Dispatchers.IO).launch {
+                withContext(Dispatchers.Main){
+                    recuperarComentariosQuery()
                     limparEntrada()
                 }
             }
@@ -132,8 +140,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    //Recuperar postagem
-    private suspend fun recuperarComentarios() {
+    //Recuperar postagem com Path
+    private suspend fun recuperarComentariosPath() {
 
         var retorno: Response<List<Comments>>? = null
         val idPostagem = binding.edtId.text.toString()
@@ -141,7 +149,54 @@ class MainActivity : AppCompatActivity() {
         try {
             val idPostagemInteira = Integer.parseInt(idPostagem)
             val postsService = retrofit.create(PostsService::class.java)
-            retorno = postsService.recuperarComentarios(idPostagemInteira)
+            retorno = postsService.recuperarComentariosPath(idPostagemInteira)
+
+        }catch (e: Exception) {
+            e.printStackTrace()
+        } catch (error: NumberFormatException){
+            throw NumberFormatException("Entrada inválida, digite um iD! ${error.message}")
+        }
+
+        if(retorno != null) {
+
+            if(retorno.isSuccessful){
+
+                val listaPostagens = retorno.body()
+
+                var resultado = ""
+                listaPostagens?.forEach{postagem ->
+                    val email = postagem.email
+                    val comentario = postagem.description
+                    val listaResultado = "Email:\n $email \n Comentário:\n $comentario \n \n"
+                    resultado += listaResultado
+                }
+
+                binding.edtVisualizar.setText(resultado)
+
+            }
+
+            /*if(retorno.isSuccessful){
+
+                val postagem = retorno.body()
+
+                binding.edtVisualizar.setText(
+                    " Email: \n" + postagem?.email + "\n \n" +
+                            " Description: \n" + postagem?.description
+                )
+            }*/
+        }
+    }
+
+    // Recuperar postagem com Query
+    private suspend fun recuperarComentariosQuery() {
+
+        var retorno: Response<List<Comments>>? = null
+        val idPostagem = binding.edtId.text.toString()
+
+        try {
+            val idPostagemInteira = Integer.parseInt(idPostagem)
+            val postsService = retrofit.create(PostsService::class.java)
+            retorno = postsService.recuperarComentariosQuery(idPostagemInteira)
 
         }catch (e: Exception) {
             e.printStackTrace()

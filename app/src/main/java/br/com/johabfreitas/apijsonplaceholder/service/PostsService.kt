@@ -5,6 +5,7 @@ import br.com.johabfreitas.apijsonplaceholder.model.Posts
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface PostsService {
 
@@ -12,11 +13,15 @@ interface PostsService {
     @GET("posts/{id}")
     suspend fun recuperarPost(@Path("id") id: Int) : Response<Posts>
 
-    //Recupera uma lista de postagens
+    //Recupera uma lista de postagens completa
     @GET("posts")
     suspend fun recuperarListaPosts() : Response<List<Posts>>
 
-    //Recuperar comentários
+    //Recuperar comentários com Path
     @GET("posts/{id}/comments")
-    suspend fun recuperarComentarios(@Path("id") id: Int) : Response<List<Comments>>
+    suspend fun recuperarComentariosPath(@Path("id") id: Int) : Response<List<Comments>>
+
+    //Recuperar comentários com Query
+    @GET("comments")
+    suspend fun recuperarComentariosQuery(@Query("id") id: Int) : Response<List<Comments>>
 }
