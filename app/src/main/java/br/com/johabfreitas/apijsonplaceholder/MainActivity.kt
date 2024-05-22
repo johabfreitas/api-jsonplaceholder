@@ -2,6 +2,7 @@ package br.com.johabfreitas.apijsonplaceholder
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import br.com.johabfreitas.apijsonplaceholder.databinding.ActivityMainBinding
 import br.com.johabfreitas.apijsonplaceholder.model.Comments
 import br.com.johabfreitas.apijsonplaceholder.model.Posts
@@ -88,8 +89,8 @@ class MainActivity : AppCompatActivity() {
 
         }catch (e: Exception) {
             e.printStackTrace()
-        } catch (e: NumberFormatException){
-             e.printStackTrace()
+        } catch (f: NumberFormatException){
+             exibirMensagem("Entrada inválida entre com um iD!")
         }
 
         if(retorno != null) {
@@ -104,6 +105,11 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
+    }
+
+    //Mensagem personalizada para o catch
+    private fun exibirMensagem(mensagem: String){
+        Toast.makeText(applicationContext, mensagem, Toast.LENGTH_SHORT).show()
     }
 
     //Recuperar uma lista de postagem completa.

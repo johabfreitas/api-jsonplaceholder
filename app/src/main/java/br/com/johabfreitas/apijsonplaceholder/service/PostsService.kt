@@ -4,8 +4,11 @@ import br.com.johabfreitas.apijsonplaceholder.model.Comments
 import br.com.johabfreitas.apijsonplaceholder.model.Posts
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -30,4 +33,14 @@ interface PostsService {
     //Salvar uma postagem
     @POST("posts")
     suspend fun salvarPosts(@Body posts: Posts): Response<Posts>
+
+    //Atualizar postagem PATCH
+    @PATCH("posts/{id}")
+    suspend fun atualizarPostsPatch(@Path("id") id:Int, @Body posts: Posts): Response<Posts>
+
+    @PUT("posts/{id}")
+    suspend fun atualizarPostsPut(@Path("id") id:Int, @Body posts: Posts): Response<Posts>
+
+    @DELETE("posts/{id}")
+    suspend fun removerPosts(@Path("id") id:Int): Response<Posts>
 }
